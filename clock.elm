@@ -1,4 +1,5 @@
-import Html exposing (Html, div, h1)
+import Html exposing (Html, div, p, a)
+import Html.Attributes exposing (href)
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
 import Time exposing (Time, second)
@@ -199,12 +200,9 @@ view model =
     handY =
       toString (50 + 40 * sin angle)
   in
-    div [] [
-        
-      , svg [ viewBox "0 0 100 100", width "300px" ]
+    div [] [        
+       svg [ viewBox "0 0 55 11", width "300px" ]
         [ 
-        
-        
          g [ transform "translate(0, 0)" ] [ 
             hours model
           ]
@@ -220,5 +218,10 @@ view model =
         , g [ transform "translate(40, 0)" ] [ 
             seconds model
           ]        
+        ]
+  ,
+        p [] [ 
+          text "Digital Clock written in ", 
+          Html.a [href "http://elm-lang.org/"] [ text "elm" ]
         ]
     ]
