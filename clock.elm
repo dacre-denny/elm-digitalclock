@@ -151,16 +151,11 @@ digit value x y =
 mod value cycle = value % cycle 
 
 digits val = 
-  if val < 10 then
-    g [] [
-      digit 0 0 0
-      , digit val 1 0
-    ]
-  else
-    g [] [
+   g [] [
       digit (val // 10) 0 0
       , digit (val % 10) 1 0
     ]
+   
 
 view : Model -> Html Msg
 view model =
@@ -179,12 +174,14 @@ view model =
       , svg [ viewBox "0 0 100 100", width "300px" ]
         [ circle [ cx "50", cy "50", r "45", fill "#0B79CE" ] []
         , line [ x1 "50", y1 "50", x2 handX, y2 handY, stroke "#023963" ] []
-        , polygon [points "20,10 25,19 16,21", fill "lime", stroke "purple", strokeWidth "1"] []
         
-        , g [ transform "translate(0, 1)" ] [ 
-            digits (round (Time.inMinutes model))
+        , g [ transform "translate(0, 0)" ] [ 
+            digits (mod (round (Time.inHours model) - 1) 24)
           ]
-        , g [ transform "translate(15, 1)" ] [ 
+        , g [ transform "translate(18, 0)" ] [ 
+            digits (mod (round (Time.inMinutes model)) 60)
+          ]
+        , g [ transform "translate(36, 0)" ] [ 
             digits (mod (round (Time.inSeconds model)) 60)
           ]        
         ]
