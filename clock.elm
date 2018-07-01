@@ -61,6 +61,19 @@ polyv x y =
   toString (x + 1) ++ "," ++ toString ( y + 4) ++ " " ++
   toString (x + 0) ++ "," ++ toString ( y + 3)), fill "lime", stroke "purple", strokeWidth "1"] []
 
+colon time =
+  let 
+    display = (round (Time.inSeconds time)) % 2 == 0
+  in
+    if display then
+      g [ transform "translate(0 3)" ] [
+        polygon [ points "0,0 1,0 1,1 0,1 ", fill "lime", stroke "purple", strokeWidth "1"] []
+        , polygon [ points "0,3 1,3 1,4 0,4 ", fill "lime", stroke "purple", strokeWidth "1"] []
+      ]
+    else
+      g [] []
+
+
 digit value x y =
   let
     offset = transform ("translate(" ++ toString (x * 8) ++ " " ++ toString (y * 12) ++ ")")
@@ -156,6 +169,23 @@ digits val =
       , digit (val % 10) 1 0
     ]
    
+hours time =
+  let 
+    hour = (round (Time.inHours time) - 1) % 24
+  in
+    digits hour
+   
+minutes time =
+  let 
+    minute = round (Time.inMinutes time) % 60
+  in
+    digits minute
+   
+seconds time =
+  let 
+    minute = round (Time.inSeconds time) % 60
+  in
+    digits minute
 
 view : Model -> Html Msg
 view model =
@@ -172,17 +202,23 @@ view model =
     div [] [
         h1 [] [ text (toString (mod (round (Time.inSeconds model)) 60)) ]
       , svg [ viewBox "0 0 100 100", width "300px" ]
-        [ circle [ cx "50", cy "50", r "45", fill "#0B79CE" ] []
-        , line [ x1 "50", y1 "50", x2 handX, y2 handY, stroke "#023963" ] []
+        [ 
         
-        , g [ transform "translate(0, 0)" ] [ 
-            digits (mod (round (Time.inHours model) - 1) 24)
+        
+         g [ transform "translate(0, 0)" ] [ 
+            hours model
           ]
-        , g [ transform "translate(18, 0)" ] [ 
-            digits (mod (round (Time.inMinutes model)) 60)
+        , g [ transform "translate(16,0)"] [
+          colon model
+        ]
+        , g [ transform "translate(20, 0)" ] [ 
+            minutes model
           ]
-        , g [ transform "translate(36, 0)" ] [ 
-            digits (mod (round (Time.inSeconds model)) 60)
+          , g [ transform "translate(36,0)"] [
+          colon model
+        ]
+        , g [ transform "translate(40, 0)" ] [ 
+            seconds model
           ]        
         ]
     ]
