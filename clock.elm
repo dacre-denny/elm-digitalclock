@@ -200,7 +200,7 @@ view model =
       toString (50 + 40 * sin angle)
   in
     div [] [
-        h1 [] [ text (toString (mod (round (Time.inSeconds model)) 60)) ]
+        
       , svg [ viewBox "0 0 100 100", width "300px" ]
         [ 
         
