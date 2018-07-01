@@ -144,7 +144,11 @@ digit value x y =
     , polyh 1 4
     , polyh 1 8
   ]
-  _ -> g [ offset ] []
+  _ -> g [ offset ] [
+      polyv 0 1
+      ]
+
+mod value cycle = value % cycle 
 
 digits val = 
   if val < 10 then
@@ -171,14 +175,17 @@ view model =
       toString (50 + 40 * sin angle)
   in
     div [] [
-      svg [ viewBox "0 0 100 100", width "300px" ]
+        h1 [] [ text (toString (mod (round (Time.inSeconds model)) 60)) ]
+      , svg [ viewBox "0 0 100 100", width "300px" ]
         [ circle [ cx "50", cy "50", r "45", fill "#0B79CE" ] []
         , line [ x1 "50", y1 "50", x2 handX, y2 handY, stroke "#023963" ] []
         , polygon [points "20,10 25,19 16,21", fill "lime", stroke "purple", strokeWidth "1"] []
         
-        , g [ transform "translate(10)" ] [ 
-            digits 2
-          
+        , g [ transform "translate(0, 1)" ] [ 
+            digits (round (Time.inMinutes model))
+          ]
+        , g [ transform "translate(15, 1)" ] [ 
+            digits (mod (round (Time.inSeconds model)) 60)
           ]        
         ]
     ]
