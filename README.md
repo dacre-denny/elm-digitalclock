@@ -19,3 +19,10 @@ Now you can run this locally in your browser by running this command in terminal
 ```
   elm-reactor
 ```
+
+## Build Instructions
+
+From terminal run the following to build the app:
+```
+  elm-make main.elm --output=index.html
+```
