@@ -8,7 +8,7 @@ Perhaps this will turn into something amazing (unlikely).
 
 First follow [this guide](https://guide.elm-lang.org/install.html). 
 
-Then clone repository and install node dependencies:
+Then clone repository and install dependencies:
 ```
     git clone https://github.com/mooce/elm-digitalclock
     cd elm-digitalclock
